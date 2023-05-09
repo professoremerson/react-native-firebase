@@ -1,0 +1,47 @@
+Arguments: 
+  /usr/bin/node /bin/yarn
+
+PATH: 
+  /home/professor-emerson/dev/ia/anaconda3/bin:/home/professor-emerson/dev/ia/anaconda3/bin:/home/professor-emerson/dev/ia/anaconda3/bin:/home/professor-emerson/.local/bin:/opt/maven/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  18.16.0
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: EACCES: permission denied, unlink '/home/professor-emerson/dev/UnC/2023-1/DAM/react-native-firebase/node_modules/yarn/LICENSE'
+
+npm manifest: 
+  {
+    "name": "react-native-firebase",
+    "version": "1.0.0",
+    "main": "node_modules/expo/AppEntry.js",
+    "scripts": {
+      "start": "expo start",
+      "android": "expo start --android",
+      "ios": "expo start --ios",
+      "web": "expo start --web"
+    },
+    "dependencies": {
+      "expo": "^44.0.6",
+      "expo-status-bar": "~1.4.4",
+      "react": "18.2.0",
+      "react-native": "0.71.7",
+      "yarn": "^1.22.19"
+    },
+    "devDependencies": {
+      "@babel/core": "^7.20.0"
+    },
+    "private": true
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
