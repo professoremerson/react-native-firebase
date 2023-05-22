@@ -26,13 +26,10 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        // verificando se há um usuário
         {user ? (
           // se o usuário estiver logado
           // redireciona a rota para a 'Home'
           <Stack.Screen name="Home">
-            // informando a rota, componente e // enviar os dados do usuário
-            para a 'Home'
             {props => <HomeScreen {...props} extraData={user} />}
           </Stack.Screen>
         ) : (
@@ -40,7 +37,6 @@ export default function App() {
           // disponibiliza os componentes para
           // 'login' ou registro
           <>
-            // criando a rota e vinculando o componente
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Registration" component={RegistrationScreen} />
           </>

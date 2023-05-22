@@ -72,7 +72,7 @@ export default function RegistrationScreen({ navigation }) {
         >
           <Text style={styles.buttonTitle}>Criar sua conta</Text>
         </TouchableOpacity>
-        <View style={styles.footView}>
+        <View style={styles.footerView}>
           <Text style={styles.footerText}>Já possui uma conta?</Text>
           <Text style={styles.footerLink} onPress={() => onFooterLinkPress()}>
             Login
