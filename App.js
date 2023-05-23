@@ -22,7 +22,6 @@ export default function App() {
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState(null)
 
-  // retornando o componente principal
   return (
     <NavigationContainer>
       <Stack.Navigator>

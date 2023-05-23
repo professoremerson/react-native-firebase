@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import styles from './styles'
+import { firebase } from '../../firebase/config'
 
 export default function RegistrationScreen({ navigation }) {
   const [fullName, setFullName] = useState('')
@@ -14,7 +15,50 @@ export default function RegistrationScreen({ navigation }) {
     navigation.navigate('Login')
   }
 
-  const onRegisterPress = () => {}
+  const onRegisterPress = () => {
+    /**
+     * testando se os campos para senha e confirmação
+     * de senha possuem o mesmo conteúdo
+     */
+    if (password !== confirmPassword) {
+      alert('Senha e confirmação não conferem!')
+      return
+    }
+    // se os campos senha e confirmação forem
+    // iguais
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(response => {
+        // recuperando o ID do usuário no Firebase
+        const uid = response.user.uid
+        // montando um objeto com os dados do usuário
+        const data = {
+          id: uid,
+          email,
+          fullName
+        }
+        // vinculando a constante 'usersRef' à
+        // coleção 'users' do Firestore
+        const usersRef = firebase.firestore().collection('users')
+        // gravando os dados do usuário criado na
+        // coleção 'users' dentro do Firestore
+        usersRef
+          .doc(uid)
+          .set(data)
+          // testando a gravação do documento
+          .then(() => {
+            // se o documento foi gravado com sucesso
+            // redireciona o usuário para a página 'Home'
+            // e envia os dados do usuário para a nova
+            // página
+            navigation.navigate('Home', { user: data })
+          })
+          .catch(error => {
+            alert(error)
+          })
+      })
+  }
 
   return (
     <View style={styles.container}>
