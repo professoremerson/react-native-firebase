@@ -32,29 +32,27 @@ export default function App() {
    */
 
   useEffect(() => {
-    const usersRef = firebase.firestore.collection('users')
-
-    // verificando se ocorreu ou não um login
-    // no provider 'Auth' do Firebase
+    const usersRef = firebase.firestore().collection('users')
     firebase.auth().onAuthStateChanged(user => {
-      // testando se há um retorno de usuário
       if (user) {
-        // recuperando as informações do usuário
+        /**
+         * recuperando do 'Firestore' os dados do
+         * documento do usuário logado e enviando
+         * estes dados para uma constante
+         */
         usersRef
-          // procurando pelo documento que corresponde
-          // ao 'uid' do usuário logado
           .doc(user.uid)
-          // recuperando as informações do documento
           .get()
-          // com as informações recuperadas
           .then(document => {
-            // criando uma constate para receber os dados
             const userData = document.data()
-            // alterando o estado do carregamento
-            setLoading(true)
+            setLoading(false)
+            /**
+             * enviando o conteúdo da constante 'userData'
+             * (escopo local) para a constante do 'app'
+             * chamada 'user'
+             */
             setUser(userData)
           })
-          // tratando possíveis erros nesta etapa
           .catch(error => {
             setLoading(false)
           })
@@ -64,10 +62,7 @@ export default function App() {
     })
   }, [])
 
-  // testando se há um carregamento ou não
   if (loading) {
-    // se estiver carregando, retornará um
-    // fragmento (tela vazia)
     return <></>
   }
 
