@@ -1,6 +1,7 @@
 // importando as bibliotecas
 import React, { useEffect, useState } from 'react'
 import {
+  Alert,
   FlatList,
   Keyboard,
   Text,
@@ -69,11 +70,57 @@ export default function HomeScreen(props) {
     }
   }
 
+  const onDelButtonPress = itemId => {
+    Alert.alert(
+      'Apagar Item',
+      'Você tem certeza?',
+      [
+        {
+          text: 'Sim',
+          /**
+           * se o usuário clicar em 'Sim' irá executar
+           * a rotina para exclusão do documento
+           */
+          onPress: () => {
+            // buscando pelo documento que possui o ID informado
+            const entityRef = firebase
+              .firestore()
+              .collection('entities')
+              .doc(itemId)
+            // iniciando o processo para a exclusão do documento
+            entityRef
+              .delete()
+              .then(res => {
+                console.log(`O item ${itemId} foi removido`)
+              })
+              .catch(error => {
+                console.log(error)
+              })
+          }
+        },
+        {
+          text: 'Não',
+          onPress: () => console.log('Nenhum item removido!'),
+          style: 'cancel'
+        }
+      ],
+      {
+        cancelable: true
+      }
+    )
+  }
+
   const renderEntity = ({ item, index }) => {
     return (
       <View style={styles.entityContainer}>
         <Text style={styles.entityText}>
           {index}. {item.text}
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => onDelButtonPress(item.id)}
+          >
+            <Text style={styles.buttonText}>Excluir</Text>
+          </TouchableOpacity>
         </Text>
       </View>
     )
