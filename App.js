@@ -3,7 +3,12 @@ import 'react-native-gesture-handler'
 import React, { useEffect, useState } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import { HomeScreen, LoginScreen, RegistrationScreen } from './src/screens'
+import {
+  HomeScreen,
+  LoginScreen,
+  RegistrationScreen,
+  EditItemScreen
+} from './src/screens'
 import { decode, encode } from 'base-64'
 import { firebase } from './src/firebase/config'
 
@@ -72,9 +77,14 @@ export default function App() {
         {user ? (
           // se o usuário estiver logado
           // redireciona a rota para a 'Home'
-          <Stack.Screen name="Home">
-            {props => <HomeScreen {...props} extraData={user} />}
-          </Stack.Screen>
+          <>
+            <Stack.Screen name="Home">
+              {props => <HomeScreen {...props} extraData={user} />}
+            </Stack.Screen>
+            <Stack.Screen name="EditItem">
+              {props => <EditItemScreen {...props} />}
+            </Stack.Screen>
+          </>
         ) : (
           // se o usuário não estiver logado
           // disponibiliza os componentes para

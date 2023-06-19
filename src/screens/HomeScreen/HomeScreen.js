@@ -12,12 +12,13 @@ import {
 import styles from './styles'
 import { firebase } from '../../firebase/config'
 
-export default function HomeScreen(props) {
+export default function HomeScreen({ navigation, ...props }) {
   const [entityText, setEntityText] = useState('')
   const [entities, setEntities] = useState([])
 
   const entityRef = firebase.firestore().collection('entities')
   const userId = props.extraData.id
+  console.log(userId)
 
   useEffect(() => {
     /**
@@ -70,6 +71,12 @@ export default function HomeScreen(props) {
     }
   }
 
+  const onEditButtonPress = itemId => {
+    // abrindo a tela para edição do item e
+    // enviando o ID do item como parâmetro
+    navigation.navigate('EditItem', { itemId })
+  }
+
   const onDelButtonPress = itemId => {
     Alert.alert(
       'Apagar Item',
@@ -117,9 +124,15 @@ export default function HomeScreen(props) {
           {index}. {item.text}
           <TouchableOpacity
             style={styles.button}
+            onPress={() => onEditButtonPress(item.id)}
+          >
+            <Text style={styles.buttonText}>Editar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
             onPress={() => onDelButtonPress(item.id)}
           >
-            <Text style={styles.buttonText}>Excluir</Text>
+            <Text style={styles.buttonText}>Del</Text>
           </TouchableOpacity>
         </Text>
       </View>
