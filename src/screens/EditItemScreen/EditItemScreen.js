@@ -6,7 +6,11 @@ import { firebase } from '../../firebase/config'
 
 export default function EditItemScreen({ navigation, ...props }) {
   const [itemText, setItemText] = useState('')
-  const [entity, setEntity] = useState()
+  const [authorId, setAuthorId] = useState('')
+  const [createAt, setCreateAt] = useState({
+    nanoseconds: '',
+    seconds: ''
+  })
 
   const entityRef = firebase.firestore().collection('entities')
 
@@ -20,9 +24,10 @@ export default function EditItemScreen({ navigation, ...props }) {
           return
         }
         const item = firestoreDocument.data()
-        setEntity(item)
-        console.log(entity)
-        setItemText(entity.text)
+        console.log(item)
+        setItemText(item.text)
+        setAuthorId(item.authorId)
+        setCreateAt(item.createAt)
       })
       .catch(error => {
         console.log(error)
@@ -36,11 +41,13 @@ export default function EditItemScreen({ navigation, ...props }) {
       .collection('entities')
       .doc(props.route.params.itemId)
     // atualizando o documento
+    const timeStamp = firebase.firestore.FieldValue.serverTimestamp()
     entityRef
       .set({
+        authorId: authorId,
         text: itemText,
-        authorId: entity.authorId,
-        createAt: timeStamp
+        createAt: createAt,
+        updateAt: timeStamp
       })
       .then(() => {
         navigation.navigate('Home')
