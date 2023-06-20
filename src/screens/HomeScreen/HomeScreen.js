@@ -18,7 +18,6 @@ export default function HomeScreen({ navigation, ...props }) {
 
   const entityRef = firebase.firestore().collection('entities')
   const userId = props.extraData.id
-  console.log(userId)
 
   useEffect(() => {
     /**

@@ -6,10 +6,13 @@ import { firebase } from '../../firebase/config'
 
 export default function EditItemScreen({ navigation, ...props }) {
   const [itemText, setItemText] = useState('')
-  const [authorId, setAuthorId] = useState('')
-  const [createAt, setCreateAt] = useState({
-    nanoseconds: '',
-    seconds: ''
+  const [entity, setEntity] = useState({
+    authorId: '',
+    text: '',
+    createAt: {
+      nanoseconds: '',
+      seconds: ''
+    }
   })
 
   const entityRef = firebase.firestore().collection('entities')
@@ -24,10 +27,8 @@ export default function EditItemScreen({ navigation, ...props }) {
           return
         }
         const item = firestoreDocument.data()
-        console.log(item)
         setItemText(item.text)
-        setAuthorId(item.authorId)
-        setCreateAt(item.createAt)
+        setEntity(item)
       })
       .catch(error => {
         console.log(error)
@@ -44,9 +45,9 @@ export default function EditItemScreen({ navigation, ...props }) {
     const timeStamp = firebase.firestore.FieldValue.serverTimestamp()
     entityRef
       .set({
-        authorId: authorId,
+        authorId: entity.authorId,
         text: itemText,
-        createAt: createAt,
+        createAt: entity.createAt,
         updateAt: timeStamp
       })
       .then(() => {
